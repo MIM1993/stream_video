@@ -1,0 +1,19 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "virQ9Kms0oN/qhI5/hlyVDkSnKI=",
+			"path": "github.com/go-sql-driver/mysql",
+			"revision": "73dc904a9ece5c074295a77abb7a135797a351bf",
+			"revisionTime": "2020-07-20T07:11:43Z"
+		},
+		{
+			"checksumSHA1": "U1yzIO34W0A7w8uuWiotoun1oDQ=",
+			"path": "github.com/julienschmidt/httprouter",
+			"revision": "8c9f31f047a304abedb5614d4a18a843cd5f4a40",
+			"revisionTime": "2020-01-14T09:48:04Z"
+		},
+	],
+	"rootPath": "stream_video/api"
+}
