@@ -54,3 +54,48 @@ func CreatUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	w.WriteHeader(http.StatusCreated)
 	w.Write(reqData)
 }
+
+func Login(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	//获取数据
+	data, _ := ioutil.ReadAll(r.Body)
+	var container = &defs.UserCredential{}
+	err := json.Unmarshal(data, container)
+	if err != nil {
+		ResponseErr(w, defs.ErrorHttpBodyParseFailed)
+		return
+	}
+	userName := ps.ByName("username")
+	if userName == EmptyString {
+		ResponseErr(w, defs.ErrorParamsErr)
+		return
+	}
+	//校验user_name
+	if container.UserName != userName {
+		ResponseErr(w, defs.ErrorNotAuthUser)
+		return
+	}
+	//获取密码
+	pwd,err :=dbops.GetUserPwd(userName)
+	if err != nil || len(pwd)<=0 || pwd != container.PassWord{
+		ResponseErr(w, defs.ErrorNotAuthUser)
+		return
+	}
+
+	//添加session，返回 sessionID
+	sessionid := session.GenerateNewSessionID(container.UserName)
+	//组织返回struct
+	req := &defs.SigneUp{
+		Success:   true,
+		Sessionid: sessionid,
+	}
+
+	//序列化后返回
+	reqData, err := json.Marshal(req)
+	if err != nil {
+		ResponseErr(w, defs.ErrorInternalErr)
+		return
+	}
+
+	w.WriteHeader(http.StatusCreated)
+	w.Write(reqData)
+}

@@ -12,6 +12,8 @@ import (
 func RegisterHandlers() *httprouter.Router {
 	router := httprouter.New()
 	router.POST("/user", CreatUser)
+	router.POST("/login/:username", Login)
+
 
 	return router
 }
